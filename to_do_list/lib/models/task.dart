@@ -8,7 +8,7 @@ class Task{
   bool completed;
   String? title;
 
-  Task({ required this.content, String? pTitle, String? pid}):completed=false,id=uuid.v4(){
+  Task({ required this.content, String? pTitle, String? pid, required bool completed}):completed=false,id=uuid.v4(){
     id= pid ??id;
   }
 
