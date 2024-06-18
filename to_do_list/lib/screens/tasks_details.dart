@@ -31,18 +31,19 @@ class _TaskDetailsState extends State<TaskDetails> {
   }
 
   void _saveChanges() {
-    // Update the task object with the new values
-    widget.task.title = _titleController.text;
-    widget.task.content = _contentController.text;
-    widget.task.completed = _completed;
-
-    // You can save or update the task here using TaskService if needed
+    setState(() {
+      widget.task.title = _titleController.text;
+      widget.task.content = _contentController.text;
+      widget.task.completed = _completed;
+    });
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Changes saved successfully!'),
       ),
     );
+
+    Navigator.pop(context, widget.task); // Retourne la tâche mise à jour
   }
 
   @override
@@ -50,12 +51,6 @@ class _TaskDetailsState extends State<TaskDetails> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.task.title ?? 'Task Details'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.save),
-            onPressed: _saveChanges,
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -81,6 +76,11 @@ class _TaskDetailsState extends State<TaskDetails> {
                   _completed = value;
                 });
               },
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _saveChanges,
+              child: Text('Save'),
             ),
           ],
         ),

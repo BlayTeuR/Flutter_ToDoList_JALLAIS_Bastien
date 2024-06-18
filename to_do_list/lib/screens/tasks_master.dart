@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
 import 'package:to_do_list/screens/task_preview.dart';
-import 'package:to_do_list/screens/tasks_details.dart';
+import 'package:to_do_list/screens/task_form.dart';
 import 'package:to_do_list/services/task_service.dart';
-import 'package:to_do_list/screens/task_form.dart'; // Importez TaskForm ici
 
 class TasksMaster extends StatefulWidget {
   @override
@@ -16,11 +15,9 @@ class _TasksMasterState extends State<TasksMaster> {
   @override
   void initState() {
     super.initState();
-    // Pas besoin de charger les tâches ici, car elles sont déjà initialisées dans TaskService
   }
 
   void _addTask(Map<String, dynamic> taskData) {
-    // Vérifiez si une tâche avec le même ID existe déjà
     bool taskExists = _taskService.tasks.any((task) => task.id == taskData['pid']);
     if (taskExists) {
       print('Task already exists with the same ID');
@@ -33,8 +30,27 @@ class _TasksMasterState extends State<TasksMaster> {
       completed: taskData['completed'] ?? false,
     );
     _taskService.createTask(newTask);
+    setState(() {});
+  }
+
+  void _toggleTaskCompletion(Task task) {
     setState(() {
-      // Mettre à jour l'affichage après l'ajout de la tâche
+      task.completed = !task.completed;
+    });
+  }
+
+  void _updateTask(Task updatedTask) {
+    setState(() {
+      int index = _taskService.tasks.indexWhere((task) => task.id == updatedTask.id);
+      if (index != -1) {
+        _taskService.tasks[index] = updatedTask;
+      }
+    });
+  }
+
+  void _deleteTask(String taskId) {
+    setState(() {
+      _taskService.deleteTask(taskId);
     });
   }
 
@@ -49,10 +65,19 @@ class _TasksMasterState extends State<TasksMaster> {
       body: _tasks.isEmpty
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
+        padding: const EdgeInsets.all(8.0),
         itemCount: _tasks.length,
         itemBuilder: (context, index) {
           Task task = _tasks[index];
-          return TaskPreview(task: task);
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: TaskPreview(
+              task: task,
+              onTaskToggled: _toggleTaskCompletion,
+              onTaskUpdated: _updateTask,
+              onTaskDeleted: _deleteTask,
+            ),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(

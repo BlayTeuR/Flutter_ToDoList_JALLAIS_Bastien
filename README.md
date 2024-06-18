@@ -24,3 +24,8 @@ Etape 5:
 
 Mauvais point : je n'arrive pas à faire fonctionner le bouton qui affiche lors formulaire lorsque j'ajoute celui-ci dans todo_list_app
 c'est pourquoi je le place dans taskMaster
+
+Etape 6:
+- Mise en place du provider
+- Amélioration de l'esthétisme général de l'application
+- Ajout de fonctionnalité comme la suppression de tâche avec un icône poubelle ou encore de la la sélectionner du tâche terminé sur la liste principale ou inversement

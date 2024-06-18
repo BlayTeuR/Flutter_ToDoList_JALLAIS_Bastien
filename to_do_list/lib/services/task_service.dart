@@ -24,4 +24,8 @@ class TaskService {
   Future<void> createTask(Task newTask) async {
     _tasks.add(newTask);
   }
+
+  Future<void> deleteTask(String id) async {
+    _tasks.removeWhere((task) => task.id == id);
+  }
 }
