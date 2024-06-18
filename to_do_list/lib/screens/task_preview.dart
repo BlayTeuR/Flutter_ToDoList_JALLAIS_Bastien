@@ -8,59 +8,61 @@ class TaskPreview extends StatelessWidget {
   final Function(Task) onTaskUpdated;
   final Function(String) onTaskDeleted;
 
-  const TaskPreview({Key? key, required this.task, required this.onTaskToggled, required this.onTaskUpdated, required this.onTaskDeleted}) : super(key: key);
+  const TaskPreview({
+    Key? key,
+    required this.task,
+    required this.onTaskToggled,
+    required this.onTaskUpdated,
+    required this.onTaskDeleted,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: task.completed ? Colors.green.shade100 : Colors.red.shade100,
-        border: Border.all(
-          color: task.completed ? Colors.green : Colors.red,
-          width: 2.0,
-        ),
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ListTile(
-        title: Text(
-          task.title ?? 'No Title',
-          style: TextStyle(
-            decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
+      child: Card(
+        color: task.completed ? Colors.green[100] : Colors.red[100],
+        margin: EdgeInsets.all(8),
+        child: ListTile(
+          title: Text(
+            task.title ?? '',
+            style: TextStyle(
+              color: task.completed ? Colors.grey : Colors.black,
+              decoration: task.completed ? TextDecoration.lineThrough : null,
+            ),
           ),
+          subtitle: Text(task.content ?? ''),
+          trailing: Wrap(
+            spacing: 12, // space between two icons
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  task.completed ? Icons.cancel : Icons.check,
+                  color: task.completed ? Colors.red : Colors.green,
+                ),
+                onPressed: () => onTaskToggled(task),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () => onTaskDeleted(task.id!),
+              ),
+            ],
+          ),
+          onTap: () async {
+            final updatedTask = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TaskDetails(
+                  task: task,
+                  onTaskUpdated: onTaskUpdated,
+                ),
+              ),
+            );
+
+            if (updatedTask != null) {
+              onTaskUpdated(updatedTask);
+            }
+          },
         ),
-        subtitle: Text(task.content),
-        leading: Icon(
-          task.completed ? Icons.check_circle : Icons.circle,
-          color: task.completed ? Colors.green : Colors.red,
-        ),
-        trailing: Wrap(
-          spacing: 12, // space between two icons
-          children: [
-            IconButton(
-              icon: Icon(task.completed ? Icons.close : Icons.check),
-              onPressed: () {
-                onTaskToggled(task);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                onTaskDeleted(task.id!);
-              },
-            ),
-          ],
-        ),
-        onTap: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => TaskDetails(task: task),
-            ),
-          );
-          if (result != null) {
-            onTaskUpdated(result); // Met à jour la tâche après les modifications
-          }
-        },
       ),
     );
   }

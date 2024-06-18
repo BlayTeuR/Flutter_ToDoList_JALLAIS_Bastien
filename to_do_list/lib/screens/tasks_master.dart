@@ -54,6 +54,29 @@ class _TasksMasterState extends State<TasksMaster> {
     });
   }
 
+  Future<void> _showAddTaskDialog() async {
+    final result = await showDialog<Task>(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TaskForm(formMode: FormMode.Add),
+          ),
+        );
+      },
+    );
+
+    if (result != null) {
+      _addTask({
+        'pid': result.id,
+        'title': result.title,
+        'content': result.content,
+        'completed': result.completed,
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Task> _tasks = _taskService.tasks;
@@ -81,15 +104,7 @@ class _TasksMasterState extends State<TasksMaster> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TaskForm()),
-          );
-          if (result != null) {
-            _addTask(result);
-          }
-        },
+        onPressed: _showAddTaskDialog,
         child: Icon(Icons.add),
       ),
     );

@@ -29,3 +29,7 @@ Etape 6:
 - Mise en place du provider
 - Amélioration de l'esthétisme général de l'application
 - Ajout de fonctionnalité comme la suppression de tâche avec un icône poubelle ou encore de la la sélectionner du tâche terminé sur la liste principale ou inversement
+
+Etape 7:
+- modification du formualaire (s'affiche maintenant sous forme du fenetre modale)
+- suppression du scaffold dans task_form
