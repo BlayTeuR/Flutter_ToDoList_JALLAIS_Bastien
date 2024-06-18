@@ -16,3 +16,7 @@ Etape 4:
 
 - Utilisation de faker afin de créer de fausse tâche avec un titre un contenu
 - si la tache est fini alors -> vert sinon -> rouge
+
+Etape 5:
+- création de taskService (je prend mtn les pdf sur discord et non ent)
+- changement de taskmaster pour utiliser taskservice

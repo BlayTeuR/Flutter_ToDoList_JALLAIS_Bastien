@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:faker/faker.dart';
 import 'package:to_do_list/models/task.dart';
 import 'package:to_do_list/screens/task_preview.dart';
+import 'package:to_do_list/screens/task_form.dart';
+import 'package:to_do_list/services/task_service.dart';
 
 class TasksMaster extends StatefulWidget {
   @override
@@ -9,18 +10,35 @@ class TasksMaster extends StatefulWidget {
 }
 
 class _TasksMasterState extends State<TasksMaster> {
-  var faker = Faker();
+  final TaskService _taskService = TaskService(); // Instance de TaskService
+  List<Task> _tasks = [];
 
-  Future<List<Task>> _fetchTasks() async {
-    List<Task> tasks = List.generate(
-      100,
-          (index) => Task(
-        title: faker.lorem.sentence(),
-        content: faker.lorem.sentence(),
-        completed: faker.randomGenerator.boolean(),
-      ),
+  @override
+  void initState() {
+    super.initState();
+    _fetchTasks();
+  }
+
+  void _fetchTasks() {
+    _taskService.fetchTasks().then((tasks) {
+      setState(() {
+        _tasks = tasks;
+      });
+    }).catchError((error) {
+      print('Error fetching tasks: $error');
+      // Gérer les erreurs si nécessaire
+    });
+  }
+
+  void _addTask(Map<String, dynamic> taskData) {
+    Task newTask = Task(
+      title: taskData['title'],
+      content: taskData['content'],
+      completed: taskData['completed'],
     );
-    return tasks;
+    setState(() {
+      _tasks.add(newTask);
+    });
   }
 
   @override
@@ -29,26 +47,26 @@ class _TasksMasterState extends State<TasksMaster> {
       appBar: AppBar(
         title: Text('Todo List'),
       ),
-      body: FutureBuilder<List<Task>>(
-        future: _fetchTasks(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            List<Task> tasks = snapshot.data!;
-            return ListView.builder(
-              itemCount: tasks.length,
-              itemBuilder: (context, index) {
-                Task task = tasks[index];
-                return TaskPreview(task: task);
-              },
-            );
-          } else {
-            return Center(child: Text('Aucune donnée disponible'));
+      body: _tasks.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: _tasks.length,
+        itemBuilder: (context, index) {
+          Task task = _tasks[index];
+          return TaskPreview(task: task);
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => TaskForm()),
+          );
+          if (result != null) {
+            _addTask(result);
           }
         },
+        child: Icon(Icons.add),
       ),
     );
   }
