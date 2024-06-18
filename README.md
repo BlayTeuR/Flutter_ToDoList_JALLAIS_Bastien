@@ -20,3 +20,7 @@ Etape 4:
 Etape 5:
 - création de taskService (je prend mtn les pdf sur discord et non ent)
 - changement de taskmaster pour utiliser taskservice
+- Ajout possible d'une tache dans la liste de tache à partir d'un formulaire, affiche des erreurs si le formulaire est mal remplie
+
+Mauvais point : je n'arrive pas à faire fonctionner le bouton qui affiche lors formulaire lorsque j'ajoute celui-ci dans todo_list_app
+c'est pourquoi je le place dans taskMaster

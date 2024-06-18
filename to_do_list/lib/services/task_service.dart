@@ -5,10 +5,11 @@ import 'package:to_do_list/models/task.dart';
 class TaskService {
   final faker = Faker();
   final uuid = const Uuid();
+  List<Task> _tasks = [];
 
-  Future<List<Task>> fetchTasks() async {
-    List<Task> tasks = List.generate(
-      100,
+  TaskService() {
+    _tasks = List.generate(
+      10,
           (index) => Task(
         pid: uuid.v4(),
         title: faker.lorem.sentence(),
@@ -16,6 +17,11 @@ class TaskService {
         completed: faker.randomGenerator.boolean(),
       ),
     );
-    return tasks;
+  }
+
+  List<Task> get tasks => _tasks;
+
+  Future<void> createTask(Task newTask) async {
+    _tasks.add(newTask);
   }
 }

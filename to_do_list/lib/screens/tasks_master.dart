@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
 import 'package:to_do_list/screens/task_preview.dart';
-import 'package:to_do_list/screens/task_form.dart';
+import 'package:to_do_list/screens/tasks_details.dart';
 import 'package:to_do_list/services/task_service.dart';
+import 'package:to_do_list/screens/task_form.dart'; // Importez TaskForm ici
 
 class TasksMaster extends StatefulWidget {
   @override
@@ -10,39 +11,37 @@ class TasksMaster extends StatefulWidget {
 }
 
 class _TasksMasterState extends State<TasksMaster> {
-  final TaskService _taskService = TaskService(); // Instance de TaskService
-  List<Task> _tasks = [];
+  final TaskService _taskService = TaskService();
 
   @override
   void initState() {
     super.initState();
-    _fetchTasks();
-  }
-
-  void _fetchTasks() {
-    _taskService.fetchTasks().then((tasks) {
-      setState(() {
-        _tasks = tasks;
-      });
-    }).catchError((error) {
-      print('Error fetching tasks: $error');
-      // Gérer les erreurs si nécessaire
-    });
+    // Pas besoin de charger les tâches ici, car elles sont déjà initialisées dans TaskService
   }
 
   void _addTask(Map<String, dynamic> taskData) {
+    // Vérifiez si une tâche avec le même ID existe déjà
+    bool taskExists = _taskService.tasks.any((task) => task.id == taskData['pid']);
+    if (taskExists) {
+      print('Task already exists with the same ID');
+      return;
+    }
     Task newTask = Task(
+      pid: taskData['pid'],
       title: taskData['title'],
       content: taskData['content'],
-      completed: taskData['completed'],
+      completed: taskData['completed'] ?? false,
     );
+    _taskService.createTask(newTask);
     setState(() {
-      _tasks.add(newTask);
+      // Mettre à jour l'affichage après l'ajout de la tâche
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Task> _tasks = _taskService.tasks;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo List'),
