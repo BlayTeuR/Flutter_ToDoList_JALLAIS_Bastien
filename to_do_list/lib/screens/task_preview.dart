@@ -27,7 +27,7 @@ class TaskPreview extends StatelessWidget {
             task.title ?? '',
             style: TextStyle(
               color: task.completed ? Colors.grey : Colors.black,
-              decoration: task.completed ? TextDecoration.lineThrough : null,
+              // Remove TextDecoration.lineThrough here
             ),
           ),
           subtitle: Text(task.content ?? ''),

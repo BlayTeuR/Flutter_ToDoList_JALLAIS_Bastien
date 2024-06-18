@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf2ce71c-87bc-48de-9d00-2a18e29e79be" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/master.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
