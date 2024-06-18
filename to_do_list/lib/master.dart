@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/models/task.dart';
+import 'package:to_do_list/screens/task_form.dart';
 
-class Master extends StatelessWidget {
-  const Master({super.key});
+class Master extends StatefulWidget {
+  const Master({Key? key}) : super(key: key);
+
+  @override
+  _MasterState createState() => _MasterState();
+}
+
+class _MasterState extends State<Master> {
+  List<Task> _tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +25,10 @@ class Master extends StatelessWidget {
             const SizedBox(width: 16),
             FloatingActionButton.small(
               onPressed: () {
-                // Ajouter le on pressed ici
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TaskForm()),
+                );
               },
               child: const Icon(Icons.add),
             ),

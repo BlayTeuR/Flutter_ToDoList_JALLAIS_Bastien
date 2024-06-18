@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
+import 'package:to_do_list/screens/tasks_details.dart';
 
 class TaskPreview extends StatelessWidget {
   final Task task;
@@ -10,7 +11,7 @@ class TaskPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        task.title ?? 'pas de title',
+        task.title ?? 'No Title',
         style: TextStyle(
           decoration: task.completed ? TextDecoration.lineThrough : TextDecoration.none,
         ),
@@ -20,6 +21,14 @@ class TaskPreview extends StatelessWidget {
         task.completed ? Icons.check_circle : Icons.circle,
         color: task.completed ? Colors.green : Colors.red,
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TaskDetails(task: task),
+          ),
+        );
+      },
     );
   }
 }

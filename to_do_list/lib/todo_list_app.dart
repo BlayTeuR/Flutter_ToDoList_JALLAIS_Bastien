@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list/screens/tasks_master.dart';
 
-import 'master.dart';
-
-class ToDoListApp extends StatefulWidget{
-  @override
-  _ToDoListAppState createState() => _ToDoListAppState();
-}
-
-class _ToDoListAppState extends State<ToDoListApp>{
+class ToDoListApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Master(),
+    return MaterialApp(
+      home: TasksMaster(),
     );
   }
 }

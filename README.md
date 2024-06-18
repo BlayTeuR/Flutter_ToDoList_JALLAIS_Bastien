@@ -11,3 +11,8 @@ Etape 3:
   - Utilisation de FutureBuilder afin d'afficher les tasks (permet également de gérer les erreurs)
   - Utilisation d'une icone de couleur verte si la task et completed, rouge sinon
   - utilisation de la fonction  CircularProgressIndicator quand les data charge
+
+Etape 4:
+
+- Utilisation de faker afin de créer de fausse tâche avec un titre un contenu
+- si la tache est fini alors -> vert sinon -> rouge

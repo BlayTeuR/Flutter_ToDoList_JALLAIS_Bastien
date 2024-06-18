@@ -2,18 +2,17 @@ import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
 
-class Task{
+class Task {
   String? id;
   String content;
   bool completed;
   String? title;
 
-  Task({ required this.content, String? pTitle, String? pid, required bool completed}):completed=false,id=uuid.v4(){
-    id= pid ??id;
-  }
+  Task({required this.content, this.title, String? pid, required this.completed})
+      : id = pid ?? uuid.v4();
 
   @override
   String toString() {
-    return "Task(content:$content, id:$id)";
+    return "Task(content: $content, id: $id, title: $title, completed: $completed)";
   }
 }
