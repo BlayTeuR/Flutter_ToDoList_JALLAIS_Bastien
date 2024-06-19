@@ -19,22 +19,19 @@ class TasksProvider extends ChangeNotifier {
   }
 
   void updateTask(Task updatedTask) {
-    int index = _tasks.indexWhere((task) => task.id == updatedTask.id);
-    if (index != -1) {
-      _tasks[index] = updatedTask;
-      notifyListeners();
-    }
+    _taskService.updateTask(updatedTask);
+    notifyListeners();
   }
 
-  void removeTask(String taskId) {
+  void deleteTask(String taskId) {
     _taskService.deleteTask(taskId);
     _tasks.removeWhere((task) => task.id == taskId);
     notifyListeners();
   }
 
-  Task? getTaskById(String pid) {
+  Task? getTaskById(String id) {
     try {
-      return _tasks.firstWhere((task) => task.id == pid);
+      return _tasks.firstWhere((task) => task.id == id);
     } catch (e) {
       return null;
     }

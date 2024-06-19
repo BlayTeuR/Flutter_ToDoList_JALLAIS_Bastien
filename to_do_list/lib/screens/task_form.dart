@@ -18,6 +18,7 @@ class _TaskFormState extends State<TaskForm> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
   bool _completed = false;
+  TaskImportance _importance = TaskImportance.basse;
 
   @override
   void initState() {
@@ -26,23 +27,22 @@ class _TaskFormState extends State<TaskForm> {
       _titleController.text = widget.task!.title ?? '';
       _contentController.text = widget.task!.content;
       _completed = widget.task!.completed;
+      _importance = widget.task!.importance;
     }
   }
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Créer la tâche avec les données du formulaire
       Task taskData = Task(
         pid: widget.task?.id,
         title: _titleController.text,
         content: _contentController.text,
         completed: _completed,
+        importance: _importance, // Assigner l'importance
       );
 
-      // Retourner les données de la tâche à la page précédente
       Navigator.of(context).pop(taskData);
     } else {
-      // Form is invalid, show alert
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -91,6 +91,22 @@ class _TaskFormState extends State<TaskForm> {
                 return null;
               },
               maxLines: null,
+            ),
+            SizedBox(height: 16),
+            DropdownButtonFormField<TaskImportance>(
+              value: _importance,
+              onChanged: (value) {
+                setState(() {
+                  _importance = value!;
+                });
+              },
+              items: TaskImportance.values.map((importance) {
+                return DropdownMenuItem<TaskImportance>(
+                  value: importance,
+                  child: Text(importance.toString().split('.').last),
+                );
+              }).toList(),
+              decoration: InputDecoration(labelText: 'Importance'), // Libellé du menu déroulant
             ),
             if (widget.formMode == FormMode.Edit) ...[
               SizedBox(height: 16),

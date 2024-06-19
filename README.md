@@ -33,3 +33,5 @@ Etape 6:
 Etape 7:
 - modification du formualaire (s'affiche maintenant sous forme du fenetre modale)
 - suppression du scaffold dans task_form
+- Ajout de l'importance d'une tache (basse, moyenne, forte) 
+- Ajout d'une barre de recherche

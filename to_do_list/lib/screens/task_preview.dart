@@ -16,6 +16,19 @@ class TaskPreview extends StatelessWidget {
     required this.onTaskDeleted,
   }) : super(key: key);
 
+  Color _getImportanceColor(TaskImportance importance) {
+    switch (importance) {
+      case TaskImportance.basse:
+        return Colors.blue;
+      case TaskImportance.moyenne:
+        return Colors.orange;
+      case TaskImportance.forte:
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,23 +40,36 @@ class TaskPreview extends StatelessWidget {
             task.title ?? '',
             style: TextStyle(
               color: task.completed ? Colors.grey : Colors.black,
-              // Remove TextDecoration.lineThrough here
             ),
           ),
           subtitle: Text(task.content ?? ''),
-          trailing: Wrap(
-            spacing: 12, // space between two icons
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  task.completed ? Icons.cancel : Icons.check,
-                  color: task.completed ? Colors.red : Colors.green,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 12,
+                height: 12,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _getImportanceColor(task.importance),
                 ),
-                onPressed: () => onTaskToggled(task),
               ),
-              IconButton(
-                icon: Icon(Icons.delete),
-                onPressed: () => onTaskDeleted(task.id!),
+              SizedBox(width: 8),
+              Wrap(
+                spacing: 12, // space between two icons
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      task.completed ? Icons.cancel : Icons.check,
+                      color: task.completed ? Colors.red : Colors.green,
+                    ),
+                    onPressed: () => onTaskToggled(task),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () => onTaskDeleted(task.id!),
+                  ),
+                ],
               ),
             ],
           ),

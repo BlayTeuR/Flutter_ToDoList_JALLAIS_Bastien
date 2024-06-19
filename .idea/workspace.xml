@@ -5,7 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf2ce71c-87bc-48de-9d00-2a18e29e79be" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/to_do_list/lib/models/tag.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/to_do_list/lib/models/user.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/models/task.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/models/task.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/providers/task_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/providers/task_provider.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/services/task_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/services/task_service.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/lib/todo_list_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/todo_list_app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +30,11 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="etape8" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -54,5 +73,19 @@
       <updated>1718001907060</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

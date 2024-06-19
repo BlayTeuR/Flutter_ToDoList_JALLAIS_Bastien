@@ -21,11 +21,18 @@ class TaskService {
 
   List<Task> get tasks => _tasks;
 
-  Future<void> createTask(Task newTask) async {
+  void createTask(Task newTask) {
     _tasks.add(newTask);
   }
 
-  Future<void> deleteTask(String id) async {
+  void updateTask(Task updatedTask) {
+    int index = _tasks.indexWhere((task) => task.id == updatedTask.id);
+    if (index != -1) {
+      _tasks[index] = updatedTask;
+    }
+  }
+
+  void deleteTask(String id) {
     _tasks.removeWhere((task) => task.id == id);
   }
 }

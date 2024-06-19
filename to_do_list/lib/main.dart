@@ -4,7 +4,7 @@ import 'package:to_do_list/providers/task_provider.dart';
 import 'package:to_do_list/todo_list_app.dart';
 
 void main() {
-  runApp(ToDoListApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => TasksProvider(),
       child: MaterialApp(
-        title: 'ToDo List',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
