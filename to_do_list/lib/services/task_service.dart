@@ -1,38 +1,49 @@
-import 'package:faker/faker.dart';
-import 'package:uuid/uuid.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:to_do_list/models/task.dart';
 
 class TaskService {
-  final faker = Faker();
-  final uuid = const Uuid();
-  List<Task> _tasks = [];
+  final SupabaseClient _client = Supabase.instance.client;
+  final String _tasksTable = 'tasks';
 
-  TaskService() {
-    _tasks = List.generate(
-      10,
-          (index) => Task(
-        pid: uuid.v4(),
-        title: faker.lorem.sentence(),
-        content: faker.lorem.sentences(3).join(' '),
-        completed: faker.randomGenerator.boolean(),
-      ),
-    );
-  }
+  Future<List<Task>> fetchTasks() async {
+    try {
+      final response = await _client.from(_tasksTable).select().execute();
+      if (response.error != null) {
+        throw Exception('Failed to fetch tasks: ${response.error!.message}');
+      }
 
-  List<Task> get tasks => _tasks;
-
-  void createTask(Task newTask) {
-    _tasks.add(newTask);
-  }
-
-  void updateTask(Task updatedTask) {
-    int index = _tasks.indexWhere((task) => task.id == updatedTask.id);
-    if (index != -1) {
-      _tasks[index] = updatedTask;
+      final List<dynamic> data = response.data!;
+      List<Task> tasks = data.map((json) => Task.fromJson(json)).toList();
+      print('Fetched tasks: $tasks');
+      return tasks;
+    } catch (e) {
+      print('Failed to fetch tasks: $e');
+      throw Exception('Failed to fetch tasks: $e');
     }
   }
 
-  void deleteTask(String id) {
-    _tasks.removeWhere((task) => task.id == id);
+
+Future<void> createTask(Task newTask) async {
+    final response = await _client.from(_tasksTable).insert(newTask.toJson()).execute();
+    if (response.error != null) {
+      throw Exception('Failed to create task: ${response.error!.message}');
+    }
+  }
+
+  Future<void> updateTask(Task updatedTask) async {
+    final response = await _client.from(_tasksTable)
+        .update(updatedTask.toJson())
+        .eq('id', updatedTask.id)
+        .execute();
+    if (response.error != null) {
+      throw Exception('Failed to update task: ${response.error!.message}');
+    }
+  }
+
+  Future<void> deleteTask(String id) async {
+    final response = await _client.from(_tasksTable).delete().eq('id', id).execute();
+    if (response.error != null) {
+      throw Exception('Failed to delete task: ${response.error!.message}');
+    }
   }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_list/models/task.dart';
 import 'package:to_do_list/screens/task_form.dart';
 import 'package:to_do_list/screens/task_preview.dart';
-import 'package:to_do_list/services/task_service.dart';
+
+import '../providers/task_provider.dart';
 
 class TasksMaster extends StatefulWidget {
   @override
@@ -10,17 +12,22 @@ class TasksMaster extends StatefulWidget {
 }
 
 class _TasksMasterState extends State<TasksMaster> {
-  final TaskService _taskService = TaskService();
-  late List<Task> _tasks;
-  late List<Task> _filteredTasks;
-
   TextEditingController _searchController = TextEditingController();
+  late List<Task> _filteredTasks;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _tasks = _taskService.tasks;
-    _filteredTasks = _tasks;
+    _filteredTasks = [];
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<TasksProvider>(context, listen: false).fetchTasks().then((_) {
+        setState(() {
+          _isLoading = false;
+          _filteredTasks = Provider.of<TasksProvider>(context, listen: false).tasks;
+        });
+      });
+    });
 
     _searchController.addListener(() {
       _searchTasks(_searchController.text);
@@ -28,56 +35,13 @@ class _TasksMasterState extends State<TasksMaster> {
   }
 
   void _searchTasks(String searchText) {
+    final tasksProvider = Provider.of<TasksProvider>(context, listen: false);
     setState(() {
-      _filteredTasks = _tasks.where((task) {
-        String title = task.title?.toLowerCase() ?? '';
-        String content = task.content.toLowerCase();
-        String query = searchText.toLowerCase();
-        return title.contains(query) || content.contains(query);
+      _filteredTasks = tasksProvider.tasks.where((task) {
+        final titleMatches = task.title != null && task.title!.toLowerCase().contains(searchText.toLowerCase());
+        final contentMatches = task.content != null && task.content!.toLowerCase().contains(searchText.toLowerCase());
+        return titleMatches || contentMatches;
       }).toList();
-    });
-  }
-
-  void _addTask(Map<String, dynamic> taskData) {
-    bool taskExists = _taskService.tasks.any((task) => task.id == taskData['pid']);
-    if (taskExists) {
-      print('Task already exists with the same ID');
-      return;
-    }
-    Task newTask = Task(
-      pid: taskData['pid'],
-      title: taskData['title'],
-      content: taskData['content'],
-      completed: taskData['completed'] ?? false,
-    );
-    _taskService.createTask(newTask);
-    setState(() {
-      _tasks.add(newTask);
-      _filteredTasks = _tasks;
-    });
-  }
-
-  void _toggleTaskCompletion(Task task) {
-    setState(() {
-      task.completed = !task.completed;
-    });
-  }
-
-  void _updateTask(Task updatedTask) {
-    setState(() {
-      int index = _tasks.indexWhere((task) => task.id == updatedTask.id);
-      if (index != -1) {
-        _tasks[index] = updatedTask;
-        _filteredTasks = _tasks;
-      }
-    });
-  }
-
-  void _deleteTask(String taskId) {
-    setState(() {
-      _taskService.deleteTask(taskId);
-      _tasks.removeWhere((task) => task.id == taskId);
-      _filteredTasks = _tasks; // Update filtered tasks list
     });
   }
 
@@ -95,49 +59,68 @@ class _TasksMasterState extends State<TasksMaster> {
     );
 
     if (result != null) {
-      _addTask({
-        'pid': result.id,
-        'title': result.title,
-        'content': result.content,
-        'completed': result.completed,
-      });
+      Task newTask = Task(
+        title: result.title ?? '',
+        content: result.content,
+        completed: result.completed ?? false,
+        importance: result.importance,
+      );
+
+      Provider.of<TasksProvider>(context, listen: false).addTask(newTask);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final tasksProvider = Provider.of<TasksProvider>(context);
+    _filteredTasks = tasksProvider.tasks;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Todo List'),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: TaskSearchDelegate(_tasks),
-              );
-            },
+            onPressed: () {},
           ),
         ],
       ),
-      body: _filteredTasks.isEmpty
+      body: _isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        padding: const EdgeInsets.all(8.0),
-        itemCount: _filteredTasks.length,
-        itemBuilder: (context, index) {
-          Task task = _filteredTasks[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: TaskPreview(
-              task: task,
-              onTaskToggled: _toggleTaskCompletion,
-              onTaskUpdated: _updateTask,
-              onTaskDeleted: _deleteTask,
+          : Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: _searchTasks,
+              decoration: InputDecoration(
+                labelText: 'Search tasks...',
+                border: OutlineInputBorder(),
+              ),
             ),
-          );
-        },
+          ),
+          Expanded(
+            child: _filteredTasks.isEmpty
+                ? Center(child: Text('No tasks found.'))
+                : ListView.builder(
+              padding: const EdgeInsets.all(8.0),
+              itemCount: _filteredTasks.length,
+              itemBuilder: (context, index) {
+                Task task = _filteredTasks[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: TaskPreview(
+                    task: task,
+                    onTaskToggled: (t) => tasksProvider.updateTask(t),
+                    onTaskUpdated: (t) => tasksProvider.updateTask(t),
+                    onTaskDeleted: (id) => tasksProvider.deleteTask(id),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showAddTaskDialog,
@@ -146,82 +129,3 @@ class _TasksMasterState extends State<TasksMaster> {
     );
   }
 }
-
-class TaskSearchDelegate extends SearchDelegate<Task?> {
-  final List<Task> tasks;
-
-  TaskSearchDelegate(this.tasks);
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-          showSuggestions(context);
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null); // Fermer avec null lorsque la flèche de retour est pressée
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final List<Task> filteredTasks = tasks.where((task) {
-      String title = task.title?.toLowerCase() ?? '';
-      String content = task.content.toLowerCase();
-      String queryText = query.toLowerCase();
-      return title.contains(queryText) || content.contains(queryText);
-    }).toList();
-
-    return ListView.builder(
-      itemCount: filteredTasks.length,
-      itemBuilder: (context, index) {
-        Task task = filteredTasks[index];
-        return ListTile(
-          title: Text(task.title ?? ''),
-          subtitle: Text(task.content),
-          onTap: () {
-            close(context, task); // Fermer avec la tâche sélectionnée
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final List<Task> suggestionList = tasks.where((task) {
-      String title = task.title?.toLowerCase() ?? '';
-      String content = task.content.toLowerCase();
-      String queryText = query.toLowerCase();
-      return title.contains(queryText) || content.contains(queryText);
-    }).toList();
-
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
-        Task task = suggestionList[index];
-        return ListTile(
-          title: Text(task.title ?? ''),
-          subtitle: Text(task.content),
-          onTap: () {
-            query = task.title ?? '';
-            close(context, task);
-          },
-        );
-      },
-    );
-  }
-}
-

@@ -5,21 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf2ce71c-87bc-48de-9d00-2a18e29e79be" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/to_do_list/lib/models/tag.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/to_do_list/lib/models/user.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/models/task.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/models/task.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/providers/task_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/providers/task_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_form.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/task_preview.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_details.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/screens/tasks_master.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/services/task_service.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/services/task_service.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/lib/todo_list_app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/lib/todo_list_app.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/linux/flutter/generated_plugins.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/to_do_list/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/to_do_list/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/to_do_list/windows/flutter/generated_plugins.cmake" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +57,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "etape7",
+    "git-widget-placeholder": "etape8Bis",
     "kotlin-language-version-configured": "true",
     "settings.editor.selected.configurable": "dart.settings",
     "show.migrate.to.gradle.popup": "false"

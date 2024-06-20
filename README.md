@@ -35,3 +35,7 @@ Etape 7:
 - suppression du scaffold dans task_form
 - Ajout de l'importance d'une tache (basse, moyenne, forte) 
 - Ajout d'une barre de recherche
+
+Etape 8:
+- Correction de l'erreur des méthodes update, delete, ect également présente
+- Mise en place de la base de donnée supabase

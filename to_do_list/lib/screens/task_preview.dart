@@ -56,18 +56,23 @@ class TaskPreview extends StatelessWidget {
               ),
               SizedBox(width: 8),
               Wrap(
-                spacing: 12, // space between two icons
+                spacing: 12,
                 children: <Widget>[
                   IconButton(
                     icon: Icon(
                       task.completed ? Icons.cancel : Icons.check,
                       color: task.completed ? Colors.red : Colors.green,
                     ),
-                    onPressed: () => onTaskToggled(task),
+                    onPressed: () {
+                      Task toggledTask = task.copyWith(completed: !task.completed);
+                      onTaskToggled(toggledTask); // Appel de la fonction pour mettre à jour la tâche
+                    },
                   ),
                   IconButton(
                     icon: Icon(Icons.delete),
-                    onPressed: () => onTaskDeleted(task.id!),
+                    onPressed: () {
+                      onTaskDeleted(task.id!); // Appel de la fonction pour supprimer la tâche
+                    },
                   ),
                 ],
               ),
@@ -85,7 +90,7 @@ class TaskPreview extends StatelessWidget {
             );
 
             if (updatedTask != null) {
-              onTaskUpdated(updatedTask);
+              onTaskUpdated(updatedTask); // Appel de la fonction pour mettre à jour la tâche
             }
           },
         ),
